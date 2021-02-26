@@ -10,6 +10,10 @@ app.get('/fetch', (req, res) => {
         {
             name: 'temperature',
             value: 512,
+        },
+        {
+            name: 'angle',
+            value: 128
         }
     ])
 })
