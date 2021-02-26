@@ -1,0 +1,13 @@
+{
+  "appId": "de.matthiasschild.reactdemo",
+  "appName": "ReactDemo",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "build",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}
