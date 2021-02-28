@@ -14,8 +14,15 @@ app.get('/api/machines', (req, res) => {
     })
 })
 
+app.get('/api/machines/:id', (req, res) => {
+    const id = req.params.id
+    fetchMachineData(id).then(machines => {
+        res.send(machines)
+    })
+})
+
 app.post('/api/values', (req, res) => {
-    console.log(req.toJSON())
+    console.log(req.body)
 
     fetchMachineData().then(machines => {
         res.send(machines)

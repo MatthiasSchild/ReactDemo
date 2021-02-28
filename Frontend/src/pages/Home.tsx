@@ -12,8 +12,6 @@ interface State {
 }
 
 export default class HomePage extends React.Component<Props, State> {
-    private interruptFetch = 0
-
     constructor(props: any) {
         super(props)
 
@@ -24,10 +22,6 @@ export default class HomePage extends React.Component<Props, State> {
 
     componentDidMount() {
         this.fetchData()
-        setInterval(() => {
-            if (this.interruptFetch > 0) return
-            this.fetchData()
-        }, 1000)
     }
 
     private fetchData() {
@@ -49,7 +43,8 @@ export default class HomePage extends React.Component<Props, State> {
                         <IonList key={machine._id}>
                             <IonItem lines="full" routerLink={'/machine/' + machine._id}>
                                 <IonAvatar slot="start">
-                                    <img src={'http://localhost:3001/api/assets/machines/' + machine.image}/>
+                                    <img src={'http://localhost:3001/api/assets/machines/' + machine.image}
+                                         alt={machine.image}/>
                                 </IonAvatar>
                                 <IonLabel>
                                     <h1>{machine.name}</h1>

@@ -3,16 +3,17 @@ import {
     IonButtons,
     IonContent,
     IonHeader,
-    IonIcon,
-    IonLabel,
+    IonIcon, IonItem,
+    IonLabel, IonList,
     IonPage,
-    IonTitle,
+    IonTitle, IonToggle,
     IonToolbar,
 } from '@ionic/react'
 import React from 'react'
-import {arrowBackOutline} from 'ionicons/icons'
+import {home} from 'ionicons/icons'
 import {RouteComponentProps} from 'react-router'
-import {MachineData} from '../api/models'
+import {MachineData, MachineValuePair} from '../api/models'
+import {fetchMachineData, setMachineValue} from '../api/api'
 
 interface MatchParams {
     id: string
@@ -22,14 +23,38 @@ interface Props extends RouteComponentProps<MatchParams> {
 }
 
 interface State {
-    machineID: string
     machine: MachineData
 }
 
 export default class MachinePage extends React.Component<Props, State> {
+    private interruptFetch = 0
+
     componentDidMount() {
-        const machineID = this.props.match.params.id
-        this.setState({machineID})
+        this.fetchData()
+        setInterval(() => {
+            if (this.interruptFetch > 0) return
+            this.fetchData()
+        }, 1000)
+    }
+
+    private getMachineID(): string {
+        return this.props.match.params.id
+    }
+
+    private fetchData() {
+        const machineID = this.getMachineID()
+        if (!machineID) return
+
+        fetchMachineData(machineID)
+            .then(machineData => this.setState({'machine': machineData[0]}))
+    }
+
+    private onElementChange(valuePair: MachineValuePair) {
+        this.interruptFetch++
+
+        const machine = this.state.machine
+        setMachineValue(machine._id, valuePair.name, valuePair.value)
+            .finally(() => this.interruptFetch--)
     }
 
     render() {
@@ -37,23 +62,56 @@ export default class MachinePage extends React.Component<Props, State> {
             <IonPage>
                 <IonHeader>
                     <IonToolbar color="primary">
-                        <IonButtons slot="start">
+                        <IonButtons slot="end">
                             <IonButton routerLink="/home">
                                 <IonLabel>
-                                    <IonIcon icon={arrowBackOutline}/>
+                                    <IonIcon icon={home}/>
                                 </IonLabel>
                             </IonButton>
                         </IonButtons>
 
-                        {/*TODO, this does not work as expected*/}
-                        {/*{this.state.machine*/}
-                        {/*    ? <IonTitle>{this.state.machine.name}</IonTitle>*/}
-                        {/*    : <IonTitle>Machine</IonTitle>*/}
-                        {/*}*/}
+                        {this.state?.machine
+                            ? <IonTitle>{this.state?.machine?.name}</IonTitle>
+                            : <IonTitle>Machine</IonTitle>
+                        }
                     </IonToolbar>
                 </IonHeader>
 
                 <IonContent fullscreen>
+                    <IonList>
+                        {this?.state?.machine?.values?.map(valuePair => {
+                            switch (typeof (valuePair.value)) {
+                                case 'number':
+                                    return (
+                                        <IonItem lines="full">
+                                            <IonLabel>
+                                                <h1>{valuePair.name}</h1>
+                                                <h2>{valuePair.value.toFixed(2)}</h2>
+                                            </IonLabel>
+                                        </IonItem>
+                                    )
+
+                                case 'boolean':
+                                    return (
+                                        <IonItem lines="full">
+                                            <IonLabel>{valuePair.name}</IonLabel>
+                                            <IonToggle checked={valuePair.value}
+                                                       onIonChange={e => this.onElementChange(valuePair)}
+                                                       slot="start"/>
+                                        </IonItem>
+                                    )
+
+                                default:
+                                    return (
+                                        <IonItem lines="full">
+                                            <IonLabel>
+                                                <h1>{valuePair.name}</h1>
+                                            </IonLabel>
+                                        </IonItem>
+                                    )
+                            }
+                        })}
+                    </IonList>
                 </IonContent>
             </IonPage>
         )

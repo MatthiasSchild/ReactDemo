@@ -1,4 +1,4 @@
-import {MongoClient} from 'mongodb'
+import {MongoClient, ObjectID} from 'mongodb'
 
 let mongoUrl = 'mongodb://localhost:27017/demo'
 let mongoOptions = {useNewUrlParser: true, useUnifiedTopology: true}
@@ -13,7 +13,9 @@ MongoClient.connect(mongoUrl, mongoOptions, function (err, db) {
     collections.machines = db.db('demo').collection('machines')
 });
 
-export function fetchMachineData() {
+export function fetchMachineData(id = null) {
+    const filter = id ? {_id: new ObjectID(id)} : {}
+
     const simulateMachines = (machines) => {
         for (let machine of machines) {
             // When "demo" is set, the value will change slightly to simulate data
@@ -29,7 +31,7 @@ export function fetchMachineData() {
     }
 
     return collections.machines
-        .find()
+        .find(filter)
         .toArray()
         .then(simulateMachines)
 }
