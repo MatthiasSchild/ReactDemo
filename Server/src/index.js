@@ -1,8 +1,8 @@
-const collections = require('./database.js')
-const express = require('express');
-const cors = require('cors')
-const app = express()
+import cors from 'cors'
+import express from 'express'
+import collections from './database'
 
+const app = express()
 const port = 3001
 
 app.use(cors())
@@ -12,8 +12,11 @@ app.get('/fetch', (req, res) => {
         if (err) throw err;
 
         for (let r of result) {
-            if (r.demo) {
-                r.value += (Math.random() - 0.5)
+            // When "demo" is set, the value will change slightly to simulate data
+            if (r['demo']) {
+                for (let valuePair of r['values']) {
+                    valuePair.value += (Math.random() - 0.5)
+                }
             }
         }
 

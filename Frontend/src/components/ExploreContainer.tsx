@@ -1,18 +1,14 @@
 import './ExploreContainer.css'
-import {IonItem, IonLabel, IonList} from '@ionic/react'
+import {IonItem, IonLabel, IonList, IonToggle} from '@ionic/react'
 import React from 'react'
-
-interface MachineValue {
-    name: string
-    value: number
-}
+import {MachineData} from '../api/models'
+import {fetchMachineData} from '../api/api'
 
 interface ExploreContainerProps {
 }
 
 interface ExploreContainerState {
-    msg: string
-    values: MachineValue[]
+    machines: MachineData[]
 }
 
 class ExploreContainer extends React.Component<ExploreContainerProps, ExploreContainerState> {
@@ -20,48 +16,49 @@ class ExploreContainer extends React.Component<ExploreContainerProps, ExploreCon
         super(props)
 
         this.state = {
-            msg: 'Hey!',
-            values: [],
+            machines: [],
         }
     }
 
     componentDidMount() {
         this.fetchData()
+        setInterval(() => {
+            this.fetchData()
+        }, 1000)
     }
 
     fetchData() {
-        fetch('http://localhost:3001/fetch')
-            .then(resp => resp.json())
-            .then((machineValues: MachineValue[]) => this.setState({'values': machineValues}))
+        fetchMachineData()
+            .then(machineValues => this.setState({'machines': machineValues}))
     }
 
     render() {
-        return (
-            <IonList>
-                {this.state.values.map((value: any, i: number) => {
-                    return (
-                        <IonItem lines="full" key={i}>
-                            <IonLabel>{value.name} = {value.value}</IonLabel>
-                        </IonItem>
-                    )
-                })}
+        return this.state.machines.map(machine => (
+            <IonList key={machine._id}>
+
+                <IonItem lines="full">
+                    <IonLabel>
+                        <h1>{machine.name}</h1>
+                    </IonLabel>
+                </IonItem>
+
+                {machine.toggles?.map(toggle => (
+                    <IonItem key={machine._id + '_toggle_' + toggle.name} lines="none">
+                        <IonLabel>{toggle.name}</IonLabel>
+                        <IonToggle slot="start" checked={toggle.value}/>
+                    </IonItem>
+                ))}
+
+                {machine.values.map((valuePair => (
+                    <IonItem key={machine._id + '_value_' + valuePair.name} lines="none">
+                        <IonLabel>
+                            <h2>{valuePair.name}: {valuePair.value.toFixed(2)}</h2>
+                        </IonLabel>
+                    </IonItem>
+                )))}
             </IonList>
-        )
+        ))
     }
 }
-
-// const ExploreContainer: React.FC<ContainerProps> = () => {
-//     fetch('http://localhost:3001/fetch')
-//         .then(resp => resp.json())
-//         .then(machineValues => console.log(machineValues))
-//
-//     return (
-//         <IonList>
-//             <IonItem lines="full">
-//                 <IonLabel>Hello!</IonLabel>
-//             </IonItem>
-//         </IonList>
-//     )
-// }
 
 export default ExploreContainer
