@@ -1,17 +1,13 @@
 export interface MachineValuePair {
     name: string
     value: number
-}
-
-export interface MachineTogglePair {
-    name: string
-    value: boolean
+    type: string
 }
 
 export interface MachineData {
     _id: string
     name: string
-    demo: boolean
+    image: string
+    type: string
     values: MachineValuePair[]
-    toggles: MachineTogglePair[]
 }

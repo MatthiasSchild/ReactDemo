@@ -1,26 +1,24 @@
 import cors from 'cors'
 import express from 'express'
-import collections from './database'
+import {fetchMachineData} from './database'
 
 const app = express()
 const port = 3001
 
 app.use(cors())
+app.use('/api/assets', express.static('./assets'))
 
-app.get('/fetch', (req, res) => {
-    collections.machines.find().toArray((err, result) => {
-        if (err) throw err;
+app.get('/api/machines', (req, res) => {
+    fetchMachineData().then(machines => {
+        res.send(machines)
+    })
+})
 
-        for (let r of result) {
-            // When "demo" is set, the value will change slightly to simulate data
-            if (r['demo']) {
-                for (let valuePair of r['values']) {
-                    valuePair.value += (Math.random() - 0.5)
-                }
-            }
-        }
+app.post('/api/values', (req, res) => {
+    console.log(req.toJSON())
 
-        res.send(result)
+    fetchMachineData().then(machines => {
+        res.send(machines)
     })
 })
 

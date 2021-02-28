@@ -1,0 +1,73 @@
+[
+  {
+    "name": "Simulation 1",
+    "type": "sim",
+    "image": "device.jpg",
+    "values": [
+      {
+        "name": "Light",
+        "value": false,
+        "type": "c2m"
+      },
+      {
+        "name": "Temperature",
+        "value": 45,
+        "type": "m2c"
+      }
+    ]
+  },
+
+  {
+    "name": "Simulation 2",
+    "type": "sim",
+    "image": "device.jpg",
+    "values": [
+      {
+        "name": "Light",
+        "value": false,
+        "type": "c2m"
+      },
+      {
+        "name": "Temperature",
+        "value": 42,
+        "type": "m2c"
+      }
+    ]
+  },
+
+  {
+    "name": "Simulation 3",
+    "type": "sim",
+    "image": "device.jpg",
+    "values": [
+      {
+        "name": "Light",
+        "value": false,
+        "type": "c2m"
+      },
+      {
+        "name": "Temperature",
+        "value": 20,
+        "type": "m2c"
+      }
+    ]
+  },
+
+  {
+    "name": "Real device",
+    "type": "real",
+    "image": "device.jpg",
+    "values": [
+      {
+        "name": "Light",
+        "value": false,
+        "type": "c2m"
+      },
+      {
+        "name": "Temperature",
+        "value": 0,
+        "type": "m2c"
+      }
+    ]
+  }
+]
