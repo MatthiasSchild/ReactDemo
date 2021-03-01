@@ -1,5 +1,16 @@
 import './Home.css'
-import {IonAvatar, IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonTitle, IonToolbar} from '@ionic/react'
+import {
+    IonAvatar, IonButtons,
+    IonContent,
+    IonHeader,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonMenuButton,
+    IonPage,
+    IonTitle,
+    IonToolbar,
+} from '@ionic/react'
 import React from 'react'
 import {MachineData} from '../api/models'
 import {fetchMachineData} from '../api/api'
@@ -34,6 +45,10 @@ export default class HomePage extends React.Component<Props, State> {
             <IonPage>
                 <IonHeader>
                     <IonToolbar color="primary">
+                        <IonButtons slot="start">
+                            <IonMenuButton/>
+                        </IonButtons>
+
                         <IonTitle>Data Overview</IonTitle>
                     </IonToolbar>
                 </IonHeader>

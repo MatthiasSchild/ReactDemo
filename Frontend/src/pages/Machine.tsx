@@ -4,7 +4,7 @@ import {
     IonContent,
     IonHeader,
     IonIcon, IonItem,
-    IonLabel, IonList,
+    IonLabel, IonList, IonMenuButton,
     IonPage,
     IonTitle, IonToggle,
     IonToolbar,
@@ -65,12 +65,8 @@ export default class MachinePage extends React.Component<Props, State> {
             <IonPage>
                 <IonHeader>
                     <IonToolbar color="primary">
-                        <IonButtons slot="end">
-                            <IonButton routerLink="/home">
-                                <IonLabel>
-                                    <IonIcon icon={home}/>
-                                </IonLabel>
-                            </IonButton>
+                        <IonButtons slot="start">
+                            <IonMenuButton/>
                         </IonButtons>
 
                         {this.state?.machine
