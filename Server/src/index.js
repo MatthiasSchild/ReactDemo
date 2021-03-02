@@ -1,9 +1,11 @@
 import cors from 'cors'
 import express from 'express'
-import {fetchMachineData} from './database'
+import bodyParser from 'body-parser'
+import {fetchMachineData, setMachineValue} from './database'
 
 const app = express()
 const port = 3001
+const jsonParser = bodyParser.json()
 
 app.use(cors())
 app.use('/api/assets', express.static('./assets'))
@@ -21,12 +23,18 @@ app.get('/api/machines/:id', (req, res) => {
     })
 })
 
-app.post('/api/values', (req, res) => {
-    console.log(req.body)
+app.post('/api/values', jsonParser, (req, res) => {
+    if (req.body) {
+        const machineID = req.body.machineID
+        const valueName = req.body.valueName
+        const value = req.body.value
 
-    fetchMachineData().then(machines => {
-        res.send(machines)
-    })
+        setMachineValue(machineID, valueName, value).then(() => {
+            fetchMachineData().then(machines => {
+                res.send(machines)
+            })
+        })
+    }
 })
 
 app.listen(port, () => {

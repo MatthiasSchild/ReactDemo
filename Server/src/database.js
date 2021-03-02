@@ -22,7 +22,9 @@ export function fetchMachineData(id = null) {
             if (machine['type'] === 'sim') {
                 for (let valuePair of machine['values']) {
                     if (valuePair['type'] === 'm2c') {
-                        valuePair.value += (Math.random() - 0.5)
+                        if (typeof (valuePair['value']) === 'number') {
+                            valuePair.value += (Math.random() - 0.5)
+                        }
                     }
                 }
             }
@@ -37,11 +39,20 @@ export function fetchMachineData(id = null) {
 }
 
 export function setMachineValue(machineID, valueName, value) {
-    const v = {}
-    v['values.' + valueName] = value
+    const filter = {_id: new ObjectID(machineID)}
 
-    const filter = {_id: machineID}
-    const update = {$set: v}
+    function updateValues(machine) {
+        let valueSets = machine.values
+        for (let valueSet of valueSets) {
+            if (valueSet.name === valueName && valueSet.type === 'c2m') {
+                valueSet.value = value
+            }
+        }
+        return valueSets
+    }
 
-    return collections.machines.updateOne(filter, update)
+    return collections.machines.findOne(filter)
+        .then(machine => updateValues(machine))
+        .then(values => ({$set: {values}}))
+        .then(update => collections.machines.updateOne(filter, update))
 }

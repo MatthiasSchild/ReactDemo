@@ -10,8 +10,30 @@
         "type": "c2m"
       },
       {
+        "name": "Fan 1",
+        "value": false,
+        "type": "c2m"
+      },
+      {
+        "name": "Fan 2",
+        "value": false,
+        "type": "c2m"
+      },
+      {
         "name": "Temperature",
         "value": 45,
+        "type": "m2c",
+        "format": "%.02f °C"
+      },
+      {
+        "name": "Voltage",
+        "value": 12,
+        "type": "m2c",
+        "format": "%.1f V"
+      },
+      {
+        "name": "Status",
+        "value": "READY",
         "type": "m2c"
       }
     ]
@@ -28,8 +50,30 @@
         "type": "c2m"
       },
       {
+        "name": "Fan 1",
+        "value": false,
+        "type": "c2m"
+      },
+      {
+        "name": "Fan 2",
+        "value": false,
+        "type": "c2m"
+      },
+      {
         "name": "Temperature",
         "value": 42,
+        "type": "m2c",
+        "format": "%.02f °C"
+      },
+      {
+        "name": "Voltage",
+        "value": 12,
+        "type": "m2c",
+        "format": "%.1f V"
+      },
+      {
+        "name": "Status",
+        "value": "READY",
         "type": "m2c"
       }
     ]
@@ -46,8 +90,30 @@
         "type": "c2m"
       },
       {
+        "name": "Fan 1",
+        "value": false,
+        "type": "c2m"
+      },
+      {
+        "name": "Fan 2",
+        "value": false,
+        "type": "c2m"
+      },
+      {
         "name": "Temperature",
         "value": 20,
+        "type": "m2c",
+        "format": "%.02f °C"
+      },
+      {
+        "name": "Voltage",
+        "value": 12,
+        "type": "m2c",
+        "format": "%.1f V"
+      },
+      {
+        "name": "Status",
+        "value": "READY",
         "type": "m2c"
       }
     ]
@@ -64,8 +130,30 @@
         "type": "c2m"
       },
       {
+        "name": "Fan 1",
+        "value": false,
+        "type": "c2m"
+      },
+      {
+        "name": "Fan 2",
+        "value": false,
+        "type": "c2m"
+      },
+      {
         "name": "Temperature",
         "value": 0,
+        "type": "m2c",
+        "format": "%.02f °C"
+      },
+      {
+        "name": "Voltage",
+        "value": 12,
+        "type": "m2c",
+        "format": "%.1f V"
+      },
+      {
+        "name": "Status",
+        "value": "READY",
         "type": "m2c"
       }
     ]

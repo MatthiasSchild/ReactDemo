@@ -59,14 +59,15 @@ export default class MachinePage extends React.Component<Props, State> {
             .then(machineData => this.setState({'machine': machineData[0]}))
     }
 
-    private onElementChange(valuePair: MachineValuePair) {
+    private onElementChange(valuePair: MachineValuePair, newValue: any) {
         this.interruptFetch++
 
         const machine = this.state.machine
         if (!machine) return;
 
-        setMachineValue(machine._id, valuePair.name, valuePair.value)
+        setMachineValue(machine._id, valuePair.name, newValue)
             .finally(() => this.interruptFetch--)
+            .then(machineData => this.setState({'machine': machineData[0]}))
     }
 
     render() {
@@ -99,7 +100,7 @@ export default class MachinePage extends React.Component<Props, State> {
                         {values.map(valuePair => (
                             <ValueItem key={valuePair.name}
                                        valuePair={valuePair}
-                                       onChange={v => this.onElementChange(v)}/>
+                                       onChange={(v, value) => this.onElementChange(v, value)}/>
                         ))}
                     </IonList>
                 </IonContent>

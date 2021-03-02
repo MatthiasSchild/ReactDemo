@@ -2,6 +2,7 @@ export interface MachineValuePair {
     name: string
     value: number
     type: string
+    format: (string|undefined)
 }
 
 export interface MachineData {
