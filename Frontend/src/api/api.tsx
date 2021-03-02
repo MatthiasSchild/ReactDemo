@@ -2,7 +2,7 @@ import {MachineData} from './models'
 
 const serverUrl = 'http://localhost:3001'
 
-export function fetchMachineData(id: (string|null) = null): Promise<MachineData[]> {
+export function fetchMachineData(id: (string | null) = null): Promise<MachineData[]> {
     const url = id ? `${serverUrl}/api/machines/${id}` : `${serverUrl}/api/machines`
 
     return fetch(url)

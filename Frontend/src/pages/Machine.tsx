@@ -15,6 +15,7 @@ import {RouteComponentProps} from 'react-router'
 import {MachineData, MachineValuePair} from '../api/models'
 import {fetchMachineData, setMachineValue} from '../api/api'
 import ValueItem from '../components/ValueItem'
+import './Machine.css'
 
 interface MatchParams {
     id: string
@@ -24,11 +25,19 @@ interface Props extends RouteComponentProps<MatchParams> {
 }
 
 interface State {
-    machine: MachineData
+    machine: (MachineData|null)
 }
 
 export default class MachinePage extends React.Component<Props, State> {
     private interruptFetch = 0
+
+    constructor(props: Props) {
+        super(props)
+
+        this.state = {
+            machine: null,
+        }
+    }
 
     componentDidMount() {
         this.fetchData()
@@ -54,12 +63,20 @@ export default class MachinePage extends React.Component<Props, State> {
         this.interruptFetch++
 
         const machine = this.state.machine
+        if (!machine) return;
+
         setMachineValue(machine._id, valuePair.name, valuePair.value)
             .finally(() => this.interruptFetch--)
     }
 
     render() {
-        const values = this?.state?.machine?.values || []
+        const machine = this.state.machine
+        if (!machine) return null;
+
+        const url = 'http://localhost:3001'
+        const imageUrl = `${url}/api/assets/machines/${machine.image}`
+        const title = machine.name || 'Machine'
+        const values = machine.values || []
 
         return (
             <IonPage>
@@ -69,14 +86,15 @@ export default class MachinePage extends React.Component<Props, State> {
                             <IonMenuButton/>
                         </IonButtons>
 
-                        {this.state?.machine
-                            ? <IonTitle>{this.state?.machine?.name}</IonTitle>
-                            : <IonTitle>Machine</IonTitle>
-                        }
+                        <IonTitle>{title}</IonTitle>
                     </IonToolbar>
                 </IonHeader>
 
                 <IonContent fullscreen>
+                    <div>
+                        <img className="header-image" src={imageUrl} alt={machine.name}/>
+                    </div>
+
                     <IonList>
                         {values.map(valuePair => (
                             <ValueItem key={valuePair.name}

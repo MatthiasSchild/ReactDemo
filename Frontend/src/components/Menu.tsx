@@ -1,28 +1,66 @@
 import React from 'react'
-import {IonContent, IonHeader, IonItem, IonLabel, IonList, IonMenu, IonTitle, IonToolbar} from '@ionic/react'
+import {IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonMenu, IonTitle, IonToolbar} from '@ionic/react'
+import MachineItem from './MachineItem'
+import {MachineData} from '../api/models'
+import {fetchMachineData} from '../api/api'
+import {home} from 'ionicons/icons'
 
-const Menu: React.FC = () => (
-    <IonMenu contentId="main" type="overlay">
-        <IonHeader>
-            <IonToolbar color="primary">
-                <IonTitle>Machine control</IonTitle>
-            </IonToolbar>
-        </IonHeader>
+interface Props {
+}
 
-        <IonContent>
-            <IonList>
-                <IonItem routerLink="/home">
-                    <IonLabel>Overview</IonLabel>
-                </IonItem>
+interface State {
+    machines: MachineData[]
+}
 
-                <IonItem lines="none">
-                    <IonLabel>
-                        <h1>Machines</h1>
-                    </IonLabel>
-                </IonItem>
-            </IonList>
-        </IonContent>
-    </IonMenu>
-)
+export default class Menu extends React.Component<Props, State> {
+    constructor(props: any) {
+        super(props)
 
-export default Menu
+        this.state = {
+            machines: [],
+        }
+    }
+
+    componentDidMount() {
+        this.fetchData()
+    }
+
+    private fetchData() {
+        fetchMachineData()
+            .then(machines => this.setState({machines}))
+    }
+
+    render() {
+        const machines = this.state.machines
+
+        return (
+            <IonMenu contentId="main" type="overlay">
+                <IonHeader>
+                    <IonToolbar color="primary">
+                        <IonTitle>Machine control</IonTitle>
+                    </IonToolbar>
+                </IonHeader>
+
+                <IonContent>
+                    <IonList>
+                        <IonItem routerLink="/home" lines="full">
+                            <IonIcon slot="start" icon={home}/>
+                            <IonLabel>Overview</IonLabel>
+                        </IonItem>
+
+                        <IonItem lines="none">
+                            <IonLabel>
+                                <h1>Machines</h1>
+                            </IonLabel>
+                        </IonItem>
+
+
+                        {machines.map(machine => (
+                            <MachineItem key={machine._id} machine={machine}/>
+                        ))}
+                    </IonList>
+                </IonContent>
+            </IonMenu>
+        )
+    }
+}

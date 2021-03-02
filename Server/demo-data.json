@@ -2,7 +2,7 @@
   {
     "name": "Simulation 1",
     "type": "sim",
-    "image": "device.jpg",
+    "image": "device1.jpg",
     "values": [
       {
         "name": "Light",
@@ -20,7 +20,7 @@
   {
     "name": "Simulation 2",
     "type": "sim",
-    "image": "device.jpg",
+    "image": "device2.jpg",
     "values": [
       {
         "name": "Light",
@@ -38,7 +38,7 @@
   {
     "name": "Simulation 3",
     "type": "sim",
-    "image": "device.jpg",
+    "image": "device3.jpg",
     "values": [
       {
         "name": "Light",
@@ -56,7 +56,7 @@
   {
     "name": "Real device",
     "type": "real",
-    "image": "device.jpg",
+    "image": "device4.jpg",
     "values": [
       {
         "name": "Light",

@@ -1,19 +1,9 @@
 import './Home.css'
-import {
-    IonAvatar, IonButtons,
-    IonContent,
-    IonHeader,
-    IonItem,
-    IonLabel,
-    IonList,
-    IonMenuButton,
-    IonPage,
-    IonTitle,
-    IonToolbar,
-} from '@ionic/react'
+import {IonButtons, IonContent, IonHeader, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar} from '@ionic/react'
 import React from 'react'
-import {MachineData} from '../api/models'
 import {fetchMachineData} from '../api/api'
+import MachineItem from '../components/MachineItem'
+import {MachineData} from '../api/models'
 
 interface Props {
 }
@@ -37,10 +27,12 @@ export default class HomePage extends React.Component<Props, State> {
 
     private fetchData() {
         fetchMachineData()
-            .then(machineValues => this.setState({'machines': machineValues}))
+            .then(machines => this.setState({machines}))
     }
 
     render() {
+        const machines = this.state.machines
+
         return (
             <IonPage>
                 <IonHeader>
@@ -49,24 +41,16 @@ export default class HomePage extends React.Component<Props, State> {
                             <IonMenuButton/>
                         </IonButtons>
 
-                        <IonTitle>Data Overview</IonTitle>
+                        <IonTitle>Overview</IonTitle>
                     </IonToolbar>
                 </IonHeader>
 
                 <IonContent fullscreen>
-                    {this.state.machines.map(machine => (
-                        <IonList key={machine._id}>
-                            <IonItem lines="full" routerLink={'/machine/' + machine._id}>
-                                <IonAvatar slot="start">
-                                    <img src={'http://localhost:3001/api/assets/machines/' + machine.image}
-                                         alt={machine.image}/>
-                                </IonAvatar>
-                                <IonLabel>
-                                    <h1>{machine.name}</h1>
-                                </IonLabel>
-                            </IonItem>
-                        </IonList>
-                    ))}
+                    <IonList>
+                        {machines.map(machine => (
+                            <MachineItem key={machine._id} machine={machine}/>
+                        ))}
+                    </IonList>
                 </IonContent>
             </IonPage>
         )
