@@ -17,6 +17,7 @@ import HomePage from './pages/Home'
 import MachinePage from './pages/Machine'
 import React from 'react'
 import Menu from './components/Menu'
+import ImportPage from './pages/Import'
 
 const App: React.FC = () => (
     <IonApp>
@@ -27,6 +28,7 @@ const App: React.FC = () => (
                 <IonRouterOutlet id="main">
                     <Route exact path="/home" component={HomePage}/>
                     <Route exact path="/machine/:id" component={MachinePage}/>
+                    <Route exact path="/import" component={ImportPage}/>
 
                     <Route exact path="/">
                         <Redirect to="/home"/>

@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  frontend:
+    image: demo/frontend:latest
+    restart: always
+  
+  server:
+    image: demo/server:latest
+    restart: always
+  
+  database:
+    image: mongo:3.6
+    restart: always
+  
+  mqtt:
+    image: eclipse-mosquitto:2.0
+    restart: always
+    ports:
+      - 1883:1883
+      - 9001:9001
+    volumes:
+      - ${PROJECT_DIR}/config/:/mosquitto/config
+      - ${PROJECT_DIR}/data/:/mosquitto/data
+      - ${PROJECT_DIR}/log/:/mosquitto/log
+
+networks:
+  default:
+    external:
+      name: ${NETWORK}

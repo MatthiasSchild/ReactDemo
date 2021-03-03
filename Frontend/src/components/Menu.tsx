@@ -3,7 +3,7 @@ import {IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonMenu, Ion
 import MachineItem from './MachineItem'
 import {MachineData} from '../api/models'
 import {fetchMachineData} from '../api/api'
-import {home} from 'ionicons/icons'
+import {cloudUploadOutline, home} from 'ionicons/icons'
 
 interface Props {
 }
@@ -46,6 +46,11 @@ export default class Menu extends React.Component<Props, State> {
                         <IonItem routerLink="/home" lines="full">
                             <IonIcon slot="start" icon={home}/>
                             <IonLabel>Overview</IonLabel>
+                        </IonItem>
+
+                        <IonItem routerLink="/import" lines="full">
+                            <IonIcon slot="start" icon={cloudUploadOutline}/>
+                            <IonLabel>Import</IonLabel>
                         </IonItem>
 
                         <IonItem lines="none">
