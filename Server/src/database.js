@@ -1,4 +1,5 @@
 import {MongoClient, ObjectID} from 'mongodb'
+import {recvMessage, sendMessage} from './msg'
 
 let mongoUrl = 'mongodb://localhost:27017/demo'
 let mongoOptions = {useNewUrlParser: true, useUnifiedTopology: true}
@@ -11,7 +12,21 @@ MongoClient.connect(mongoUrl, mongoOptions, function (err, db) {
         throw err;
     }
     collections.machines = db.db('demo').collection('machines')
+    attachMQTTSubscriptions()
 });
+
+function attachMQTTSubscriptions() {
+    collections.machines.find().toArray().then(machines => {
+        for (let machine of machines) {
+            for (let valuePair of machine.values) {
+                const topic = `${machine._id}_${valuePair.name}`
+                recvMessage(topic, value => {
+                    setMachineValueWithoutMQTT(machine._id, valuePair.name, value)
+                })
+            }
+        }
+    })
+}
 
 export function fetchMachineData(id = null) {
     const filter = id ? {_id: new ObjectID(id)} : {}
@@ -39,6 +54,12 @@ export function fetchMachineData(id = null) {
 }
 
 export function setMachineValue(machineID, valueName, value) {
+    const topic = `${machineID}_${valueName}`
+    sendMessage(topic, value)
+    return setMachineValueWithoutMQTT(machineID, valueName, value)
+}
+
+export function setMachineValueWithoutMQTT(machineID, valueName, value) {
     const filter = {_id: new ObjectID(machineID)}
 
     function updateValues(machine) {

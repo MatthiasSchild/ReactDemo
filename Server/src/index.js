@@ -2,6 +2,7 @@ import cors from 'cors'
 import express from 'express'
 import bodyParser from 'body-parser'
 import {fetchMachineData, setMachineValue} from './database'
+import {sendMessage} from './msg'
 
 const app = express()
 const port = 3001
