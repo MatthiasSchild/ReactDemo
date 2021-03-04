@@ -22,6 +22,7 @@ interface MatchParams {
 }
 
 interface Props extends RouteComponentProps<MatchParams> {
+    machines: MachineData[]
 }
 
 interface State {
@@ -33,10 +34,7 @@ export default class MachinePage extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props)
-
-        this.state = {
-            machine: null,
-        }
+        this.state = {machine: null}
     }
 
     componentDidMount() {

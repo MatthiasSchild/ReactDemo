@@ -1,37 +1,19 @@
 import './Home.css'
 import {IonButtons, IonContent, IonHeader, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar} from '@ionic/react'
 import React from 'react'
-import {fetchMachineData} from '../api/api'
 import MachineItem from '../components/MachineItem'
 import {MachineData} from '../api/models'
 
 interface Props {
-}
-
-interface State {
     machines: MachineData[]
 }
 
+interface State {
+}
+
 export default class HomePage extends React.Component<Props, State> {
-    constructor(props: any) {
-        super(props)
-
-        this.state = {
-            machines: [],
-        }
-    }
-
-    componentDidMount() {
-        this.fetchData()
-    }
-
-    private fetchData() {
-        fetchMachineData()
-            .then(machines => this.setState({machines}))
-    }
-
     render() {
-        const machines = this.state.machines
+        const machines = this.props.machines
 
         return (
             <IonPage>

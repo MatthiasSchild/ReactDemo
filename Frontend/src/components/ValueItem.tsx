@@ -2,16 +2,7 @@ import React from 'react'
 import {IonItem, IonLabel, IonToggle} from '@ionic/react'
 import {MachineValuePair} from '../api/models'
 import {sprintf} from 'sprintf-js'
-import {
-    FlexibleXYPlot,
-    HorizontalGridLines,
-    LineMarkSeries,
-    LineSeries,
-    VerticalGridLines,
-    XAxis,
-    XYPlot,
-    YAxis,
-} from 'react-vis'
+import {FlexibleXYPlot, LineSeries} from 'react-vis'
 
 interface Props {
     valuePair: MachineValuePair
@@ -20,15 +11,15 @@ interface Props {
 
 
 interface State {
-    dataCache: {[index: string]: number[]}
+    dataCache: { [index: string]: number[] }
 }
 
 export default class ValueItem extends React.Component<Props, State> {
     constructor(props: Props) {
-        super(props);
+        super(props)
 
         this.state = {
-            dataCache: {}
+            dataCache: {},
         }
     }
 
@@ -73,7 +64,7 @@ export default class ValueItem extends React.Component<Props, State> {
                             <h1>{valuePair.name}</h1>
                             <h2>{this.formatNumber(valuePair)}</h2>
                             <FlexibleXYPlot height={100}>
-                                <LineSeries data={this.dataForPair(valuePair)} style={{ fill: 'none' }}/>
+                                <LineSeries data={this.dataForPair(valuePair)} style={{fill: 'none'}}/>
                             </FlexibleXYPlot>
                         </IonLabel>
                     </IonItem>

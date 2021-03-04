@@ -6,33 +6,15 @@ import {fetchMachineData} from '../api/api'
 import {cloudUploadOutline, home} from 'ionicons/icons'
 
 interface Props {
-}
-
-interface State {
     machines: MachineData[]
 }
 
+interface State {
+}
+
 export default class Menu extends React.Component<Props, State> {
-    constructor(props: any) {
-        super(props)
-
-        this.state = {
-            machines: [],
-        }
-    }
-
-    componentDidMount() {
-        this.fetchData()
-    }
-
-    private fetchData() {
-        fetchMachineData()
-            .then(machines => this.setState({machines}))
-    }
-
     render() {
-        const machines = this.state.machines
-
+        const machines = this.props.machines
         return (
             <IonMenu contentId="main" type="overlay">
                 <IonHeader>
